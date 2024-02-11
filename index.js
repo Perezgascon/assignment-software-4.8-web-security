@@ -8,7 +8,6 @@ const app = express();
 
 const PORT = 8080;
 
-
 testConnection();
 app.use(express.json());
 

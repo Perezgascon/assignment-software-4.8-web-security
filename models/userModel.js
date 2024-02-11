@@ -22,7 +22,7 @@ const User = sequelize.define('User', {
         defaultValue: DataTypes.NOW
     }
 }, {
-    tableName: 'users',
+    tableName: 'users-passwords',
     timestamps: false
 });
 
