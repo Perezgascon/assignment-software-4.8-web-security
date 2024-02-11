@@ -7,6 +7,18 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models/userModel');
 const { authenticateJWT } = require('../middlewares/authMiddleware');
 
+const registeredUsers = [];
+
+// GET registerd users
+
+router.get('/', async (req, res) => {
+    try {
+        res.status(200).json(registeredUsers);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred while fetching registered users.');
+    }
+})
 
 // POST - /register - register new user
 router.post('/register', async (req, res) => {
@@ -23,6 +35,9 @@ router.post('/register', async (req, res) => {
             password: hashedPassword,
         });
 
+        //store user in array
+        registeredUsers.push(user);
+
         // send the user back
         res.status(201).json(user);
     } catch (err) {
@@ -31,11 +46,12 @@ router.post('/register', async (req, res) => {
     }
 });
 
+
 // POST - /login - login existing user
 router.post('/login', async (req, res) => {
     try {
         // find the user
-        const user = await User.findOne({
+        const user = await registeredUsers.findOne({
             where: {
                 email: req.body.email
             }
